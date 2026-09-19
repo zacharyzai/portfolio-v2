@@ -1,29 +1,20 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Code2, Lightbulb, Users, Coffee } from "lucide-react";
+import { useRef, useState } from "react";
 
-const highlights = [
+const identities = [
   {
-    icon: Code2,
-    label: "Clean Code",
-    description: "I care about readability and maintainability as much as function.",
+    icon: "⌘",
+    label: "software engineer",
+    blurb:
+      "have always been interested in how tech develops, and with AI, i've been larping & learning more than i would in school. right now, i'm just going through school while continuing to build my summer project!",
   },
   {
-    icon: Lightbulb,
-    label: "Problem Solver",
-    description: "I enjoy untangling complex systems and finding elegant solutions.",
-  },
-  {
-    icon: Users,
-    label: "Team Player",
-    description: "Collaboration is core to how I build — always open to feedback.",
-  },
-  {
-    icon: Coffee,
-    label: "Perpetual Learner",
-    description: "Always exploring new technologies, frameworks, and ideas.",
+    icon: "☕",
+    label: "still a sophomore",
+    blurb:
+      "Sophomore Software Engineering Student from SMU. enjoying the last stretch of my student life and making the best out of university!",
   },
 ];
 
@@ -52,80 +43,52 @@ function FadeIn({
 }
 
 export default function About() {
-  return (
-    <section id="about" className="py-28 bg-slate-950">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text */}
-          <div>
-            <FadeIn>
-              <span className="text-xs font-semibold tracking-widest uppercase text-indigo-400 mb-3 block">
-                About me
-              </span>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6">
-                Hey, I&apos;m{" "}
-                <span className="text-indigo-400">Zachary Zai</span>
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="text-slate-400 text-base leading-relaxed mb-4">
-                I&apos;m a Year 2 Software Engineering student at Singapore Management
-                University (SMU), passionate about building software that is
-                both technically sound and genuinely useful.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <p className="text-slate-400 text-base leading-relaxed mb-4">
-                My journey started with curiosity about how things on the
-                internet worked — and evolved into a deep interest in full-stack
-                development, system design, and developer tooling. I love
-                working at the intersection of design and engineering.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.4}>
-              <p className="text-slate-400 text-base leading-relaxed mb-8">
-                Outside of code, you&apos;ll find me exploring new cafes, playing
-                badminton, or going down late-night rabbit holes on things I
-                have no business learning yet.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.5}>
-              <div className="flex flex-wrap gap-3">
-                {["SMU", "Singapore", "Y2 SE", "Full Stack", "Open to Internships"].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  )
-                )}
-              </div>
-            </FadeIn>
-          </div>
+  const [active, setActive] = useState(0);
 
-          {/* Highlights grid */}
-          <div className="grid grid-cols-2 gap-4">
-            {highlights.map((h, i) => (
-              <FadeIn key={h.label} delay={0.1 * i}>
-                <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900 hover:border-indigo-500/40 hover:bg-slate-800/60 transition-all group">
-                  <div className="mb-3 inline-flex p-2 bg-slate-800 rounded-xl border border-slate-700 group-hover:border-indigo-500/40 transition-colors">
-                    <h.icon size={18} className="text-indigo-400" />
-                  </div>
-                  <h3 className="text-sm font-semibold text-slate-100 mb-1">
-                    {h.label}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">
-                    {h.description}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
+  return (
+    <section id="about" className="py-28 bg-paper">
+      <div className="max-w-4xl mx-auto px-6">
+        <FadeIn>
+          <p className="font-mono text-xs tracking-widest uppercase text-cobalt mb-3">
+            01 — ABOUT
+          </p>
+          <h2 className="font-heading text-4xl sm:text-5xl text-ink mb-8">
+            just an excuse to yap about myself
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.1} className="flex flex-wrap gap-3 mb-8">
+          {identities.map((idn, i) => (
+            <button
+              key={idn.label}
+              onClick={() => setActive(i)}
+              className={`inline-flex items-center gap-2 min-h-[44px] rounded-full border-2 border-ink px-4 py-2 font-mono text-sm transition-all ${
+                active === i
+                  ? "bg-ink text-paper shadow-[3px_3px_0_0_#2F5FFF]"
+                  : "bg-paper text-ink hover:bg-paper-dim"
+              }`}
+            >
+              <span>{idn.icon}</span>
+              {idn.label}
+            </button>
+          ))}
+        </FadeIn>
+
+        <FadeIn delay={0.2}>
+          <div className="rounded-2xl border-2 border-ink bg-paper-dim p-8 shadow-[6px_6px_0_0_#17181C]">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink bg-cobalt text-paper">
+                {identities[active].icon}
+              </span>
+              <h3 className="font-heading text-2xl text-ink">
+                {identities[active].label}
+              </h3>
+            </div>
+            <p className="text-ink-soft leading-relaxed">
+              {identities[active].blurb}
+            </p>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import containerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
   content: [
@@ -12,14 +13,28 @@ const config: Config = {
         "-1": "-1",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        sans: ["var(--font-source-serif)", "serif"],
+        heading: ["var(--font-fraunces)", "serif"],
+        mono: ["var(--font-jetbrains)", "monospace"],
       },
       colors: {
-        accent: {
-          DEFAULT: "#6366f1",
-          light: "#818cf8",
-          dark: "#4f46e5",
+        paper: {
+          DEFAULT: "#F7F4EE",
+          dim: "#EFEBE1",
+        },
+        ink: {
+          DEFAULT: "#17181C",
+          soft: "#54545C",
+          faint: "rgba(23,24,28,0.14)",
+        },
+        cobalt: {
+          DEFAULT: "#2F5FFF",
+          dark: "#1F44D6",
+        },
+        invert: {
+          DEFAULT: "#111319",
+          card: "#1B1D24",
+          border: "rgba(247,244,238,0.14)",
         },
       },
       animation: {
@@ -33,7 +48,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [containerQueries],
 };
 
 export default config;

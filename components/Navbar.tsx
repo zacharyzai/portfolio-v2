@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import GooeyNav from "@/components/ui/gooey-nav";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "about", href: "#about" },
+  { label: "stack", href: "#stack" },
+  { label: "work", href: "#work" },
+  { label: "projects", href: "#projects" },
 ];
 
 export default function Navbar() {
@@ -46,75 +44,67 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-slate-950/90 backdrop-blur-md shadow-lg border-b border-slate-800"
-          : "bg-transparent"
+        scrolled ? "bg-paper/90 backdrop-blur-md border-b-2 border-ink" : "bg-transparent"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <a
-          href="#"
-          className="text-white font-semibold text-lg tracking-tight hover:text-indigo-400 transition-colors"
-        >
-          ZZ.
+        <a href="#home" className="font-heading text-lg text-ink hover:text-cobalt transition-colors">
+          @zacharyzai
         </a>
 
-        {/* Desktop nav — GooeyNav */}
-        <div className="hidden md:flex items-center">
-          <GooeyNav
-            items={navLinks}
-            particleCount={15}
-            particleDistances={[90, 10]}
-            particleR={100}
-            initialActiveIndex={-1}
-            animationTime={600}
-            timeVariance={300}
-            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-          />
+        <div className="hidden md:flex items-center gap-8 font-mono text-sm">
+          {navLinks.map((link) => {
+            const id = link.href.slice(1);
+            const active = activeSection === id;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`transition-colors ${
+                  active ? "text-cobalt" : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+          <a
+            href="#contact"
+            className="font-medium text-cobalt hover:text-cobalt-dark transition-colors"
+          >
+            say hi ↗
+          </a>
         </div>
 
-        {/* CTA */}
-        <a
-          href="mailto:zachary2309zz@gmail.com"
-          className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-colors"
-        >
-          Say hi
-        </a>
-
-        {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          className="md:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="md:hidden flex h-11 w-11 flex-col items-center justify-center text-ink"
           aria-label="Toggle menu"
         >
-          <span className="block w-5 h-px bg-current mb-1.5" />
-          <span className="block w-5 h-px bg-current mb-1.5" />
-          <span className="block w-5 h-px bg-current" />
+          <span className="block w-5 h-0.5 bg-current mb-1.5" />
+          <span className="block w-5 h-0.5 bg-current mb-1.5" />
+          <span className="block w-5 h-0.5 bg-current" />
         </button>
       </nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-slate-950 border-b border-slate-800 overflow-hidden"
+            className="md:hidden bg-paper border-b-2 border-ink overflow-hidden"
           >
-            <ul className="px-6 py-4 flex flex-col gap-1">
-              {navLinks.map((link) => {
+            <ul className="px-6 py-4 flex flex-col gap-1 font-mono text-sm">
+              {[...navLinks, { label: "say hi", href: "#contact" }].map((link) => {
                 const id = link.href.slice(1);
                 return (
                   <li key={link.href}>
                     <a
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`block px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                        activeSection === id
-                          ? "text-indigo-400 bg-indigo-500/10"
-                          : "text-slate-400 hover:text-indigo-400 hover:bg-slate-800"
+                      className={`flex items-center min-h-[44px] px-3 rounded-md transition-colors ${
+                        activeSection === id ? "text-cobalt" : "text-ink-soft hover:text-ink"
                       }`}
                     >
                       {link.label}

@@ -2,196 +2,137 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Github, ExternalLink } from "lucide-react";
 
 type Project = {
   title: string;
+  meta: string;
   description: string;
   tags: string[];
-  github: string;
-  live: string | null;
-  featured: boolean;
-  ongoing?: boolean;
-  grade?: string;
-  gradient: string;
-  accent: string;
+  links: { label: string; href: string }[];
 };
 
 const projects: Project[] = [
   {
     title: "FinFlow",
+    meta: "co-builder · Apr 2026 — present",
     description:
-      "AI-powered personal finance platform for Singapore users. Upload a DBS, OCBC, or UOB bank statement and Claude AI categorises every transaction automatically. Includes a prescriptive daily budget engine, Financial Health Score (0–100), savings goal tracker, and a double-entry ledger with a nightly reconciliation job.",
-    tags: ["Vue.js 3", "FastAPI", "Claude AI", "Supabase", "PostgreSQL", "Python"],
-    github: "https://github.com/zacharyzai/finflow",
-    live: null,
-    featured: true,
-    ongoing: true,
-    gradient: "from-indigo-950/60 to-violet-950/60",
-    accent: "border-indigo-800/50",
+      "AI-powered fintech platform — upload a bank statement (PDF/CSV) and Claude parses and categorises every transaction. Double-entry ledger and a payment state machine modelled on the accounting primitives Stripe and PayPal use.",
+    tags: ["Vue.js 3", "FastAPI", "Claude API", "Supabase", "Pandas"],
+    links: [{ label: "github ↗", href: "https://github.com/zacharyzai/FinFlow" }],
   },
   {
-    title: "Campus Event Board",
+    title: "SimplifyNext IGNITE",
+    meta: "team leader · semi-finalist, 80/440 teams",
     description:
-      "Full-stack campus event management platform built with 5 groupmates for IS113 (WAD1). Students browse and RSVP to events, organizers manage their own listings, and admins control all users and events via a dashboard. MVC architecture with role-based access control and session-based auth.",
-    tags: ["Express.js", "MongoDB", "Node.js", "EJS", "MVC", "bcrypt"],
-    github: "https://github.com/zacharyzai/campus-event-board",
-    live: null,
-    featured: true,
-    grade: "A-",
-    gradient: "from-sky-950/60 to-cyan-950/60",
-    accent: "border-sky-800/50",
+      "Agentic cash-flow copilot for Singapore gig workers. Built the LangGraph orchestration graph, FastAPI backend, and shared state schema for a multi-agent forecasting tool, with AWS Bedrock (Claude Haiku) as the model layer.",
+    tags: ["LangGraph", "FastAPI", "AWS Bedrock", "Multi-agent"],
+    links: [{ label: "github ↗", href: "https://github.com/zacharyzai/SimplifyNext-4NUS1SMU-" }],
   },
   {
-    title: "Project Gamma",
+    title: "TikTok TechJam",
+    meta: "platform lead · agent launchpad middleware",
     description:
-      "Mobile-first expense tracker with smart categorisation using a lightweight ML model trained on personal spending patterns.",
-    tags: ["React Native", "Expo", "Python", "scikit-learn"],
-    github: "https://github.com/zacharyzai/project-gamma",
-    live: null,
-    featured: false,
-    gradient: "from-emerald-950/60 to-teal-950/60",
-    accent: "border-emerald-800/50",
-  },
-  {
-    title: "Project Delta",
-    description:
-      "Real-time collaborative whiteboard built for hackathon teams, supporting up to 50 concurrent users with conflict-free merging.",
-    tags: ["Socket.io", "React", "Node.js", "Redis"],
-    github: "https://github.com/zacharyzai/project-delta",
-    live: "https://delta.example.com",
-    featured: false,
-    gradient: "from-amber-950/60 to-orange-950/60",
-    accent: "border-amber-800/50",
+      "Led identity and access control for a 3-person team — per-agent tokens, backend permission checks, instant revoke/reissue, and a real-time audit log that caught blocked prompt-injection attempts.",
+    tags: ["React", "TypeScript", "Fastify", "Node.js"],
+    links: [{ label: "github ↗", href: "https://github.com/zacharyzai/Tiktok-Hackathon-Jam" }],
   },
 ];
 
-function ProjectCard({
-  project,
-  index,
+const placeholderCount = 2;
+
+function FadeIn({
+  children,
+  delay = 0,
 }: {
-  project: Project;
-  index: number;
+  children: React.ReactNode;
+  delay?: number;
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
-      className={`group relative rounded-2xl bg-gradient-to-br ${project.gradient} border ${project.accent} p-6 hover:shadow-xl hover:shadow-black/30 transition-all duration-300 hover:-translate-y-1`}
+      transition={{ duration: 0.55, delay, ease: "easeOut" }}
     >
-      <div className="absolute top-4 right-4 flex gap-1.5">
-        {project.ongoing && (
-          <span className="text-[10px] font-semibold tracking-widest uppercase text-emerald-400 bg-slate-900/80 px-2 py-0.5 rounded-full border border-emerald-800/60 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Ongoing
-          </span>
-        )}
-        {project.grade && (
-          <span className="text-[10px] font-semibold tracking-widest uppercase text-amber-400 bg-slate-900/80 px-2 py-0.5 rounded-full border border-amber-800/60">
-            {project.grade}
-          </span>
-        )}
-        {project.featured && (
-          <span className="text-[10px] font-semibold tracking-widest uppercase text-indigo-400 bg-slate-900/80 px-2 py-0.5 rounded-full border border-indigo-800/60">
-            Featured
-          </span>
-        )}
-      </div>
-
-      <h3 className="text-lg font-semibold text-white mb-2">
-        {project.title}
-      </h3>
-      <p className="text-sm text-slate-400 leading-relaxed mb-4">
-        {project.description}
-      </p>
-
-      <div className="flex flex-wrap gap-1.5 mb-5">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 text-xs font-medium text-slate-300 bg-slate-800/80 border border-slate-700/60 rounded-md"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-3">
-        <a
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors"
-        >
-          <Github size={14} />
-          Code
-        </a>
-        {project.live && (
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
-          >
-            <ExternalLink size={14} />
-            Live demo
-          </a>
-        )}
-      </div>
+      {children}
     </motion.div>
   );
 }
 
 export default function Projects() {
-  const titleRef = useRef(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
-
   return (
-    <section id="projects" className="py-28 bg-slate-900">
+    <section id="projects" className="py-28 bg-invert">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          ref={titleRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={titleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
-        >
-          <span className="text-xs font-semibold tracking-widest uppercase text-indigo-400 mb-3 block">
-            Portfolio
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
-            Things I&apos;ve built
+        <FadeIn>
+          <p className="font-mono text-xs tracking-widest uppercase text-cobalt mb-3">
+            04 — PROJECTS
+          </p>
+          <h2 className="font-heading text-4xl sm:text-5xl text-paper mb-14">
+            things i&apos;ve built
           </h2>
-        </motion.div>
+        </FadeIn>
 
-        <div className="grid sm:grid-cols-2 gap-5">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {projects.map((p, i) => (
+            <FadeIn key={p.title} delay={i * 0.08}>
+              <div className="h-full rounded-2xl border-2 border-invert-border bg-invert-card p-6 hover:border-cobalt transition-colors">
+                <h3 className="font-heading text-xl text-paper">{p.title}</h3>
+                <p className="font-mono text-[11px] text-cobalt mt-1 mb-4">{p.meta}</p>
+                <p className="text-sm text-paper/70 leading-relaxed mb-5">
+                  {p.description}
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-5">
+                  {p.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 text-[11px] font-mono text-paper/70 border border-invert-border rounded-md"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-4">
+                  {p.links.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-xs text-paper/60 hover:text-cobalt transition-colors"
+                    >
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+
+          {Array.from({ length: placeholderCount }).map((_, i) => (
+            <FadeIn key={`placeholder-${i}`} delay={(projects.length + i) * 0.08}>
+              <div className="h-full flex items-center justify-center rounded-2xl border-2 border-dashed border-invert-border p-6 text-center min-h-[220px]">
+                <p className="font-mono text-xs text-paper/40">
+                  next project incoming ⌄
+                </p>
+              </div>
+            </FadeIn>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-10 text-center"
-        >
-          <a
-            href="https://github.com/zacharyzai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-400 transition-colors"
-          >
-            <Github size={16} />
-            See more on GitHub
-          </a>
-        </motion.div>
+        <FadeIn delay={0.4}>
+          <div className="mt-10 text-center">
+            <a
+              href="https://github.com/zacharyzai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm text-paper/50 hover:text-cobalt transition-colors"
+            >
+              more on github ↗
+            </a>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
