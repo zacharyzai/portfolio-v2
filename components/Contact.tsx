@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { FadeIn } from "@/components/ui/fade-in";
 import { Github, Linkedin, Mail } from "lucide-react";
 
 const socials = [
@@ -11,18 +10,10 @@ const socials = [
 ];
 
 export default function Contact() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
   return (
     <section id="contact" className="py-32 bg-paper">
       <div className="max-w-3xl mx-auto px-6 text-center">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
+        <FadeIn>
           <p className="font-mono text-xs tracking-widest uppercase text-cobalt mb-4">
             JOB HUNTING SZN
           </p>
@@ -42,7 +33,7 @@ export default function Contact() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 rounded-full border-2 border-ink px-5 py-2.5 font-mono text-sm transition-all ${
+                className={`inline-flex items-center gap-2 rounded-full border-2 border-ink px-5 py-2.5 font-mono text-sm press ${
                   s.primary
                     ? "bg-ink text-paper hover:bg-cobalt hover:border-cobalt"
                     : "bg-paper text-ink hover:bg-paper-dim"
@@ -53,7 +44,7 @@ export default function Contact() {
               </a>
             ))}
           </div>
-        </motion.div>
+        </FadeIn>
 
         <div className="mt-24 pt-8 border-t-2 border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-ink-soft">
           <p>© {new Date().getFullYear()} zachary · built with next.js, framer motion, and too much iced coffee</p>

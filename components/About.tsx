@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { FadeIn } from "@/components/ui/fade-in";
 
 const identities = [
   {
@@ -17,30 +18,6 @@ const identities = [
       "Sophomore Software Engineering Student from SMU. enjoying the last stretch of my student life and making the best out of university!",
   },
 ];
-
-function FadeIn({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 export default function About() {
   const [active, setActive] = useState(0);
@@ -62,7 +39,7 @@ export default function About() {
             <button
               key={idn.label}
               onClick={() => setActive(i)}
-              className={`inline-flex items-center gap-2 min-h-[44px] rounded-full border-2 border-ink px-4 py-2 font-mono text-sm transition-all ${
+              className={`inline-flex items-center gap-2 min-h-[44px] rounded-full border-2 border-ink px-4 py-2 font-mono text-sm press ${
                 active === i
                   ? "bg-ink text-paper shadow-[3px_3px_0_0_#2F5FFF]"
                   : "bg-paper text-ink hover:bg-paper-dim"
@@ -76,17 +53,26 @@ export default function About() {
 
         <FadeIn delay={0.2}>
           <div className="rounded-2xl border-2 border-ink bg-paper-dim p-8 shadow-[6px_6px_0_0_#17181C]">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink bg-cobalt text-paper">
-                {identities[active].icon}
-              </span>
-              <h3 className="font-heading text-2xl text-ink">
-                {identities[active].label}
-              </h3>
-            </div>
-            <p className="text-ink-soft leading-relaxed">
-              {identities[active].blurb}
-            </p>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] } }}
+                exit={{ opacity: 0, transition: { duration: 0.12 } }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink bg-cobalt text-paper">
+                    {identities[active].icon}
+                  </span>
+                  <h3 className="font-heading text-2xl text-ink">
+                    {identities[active].label}
+                  </h3>
+                </div>
+                <p className="text-ink-soft leading-relaxed">
+                  {identities[active].blurb}
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </FadeIn>
       </div>

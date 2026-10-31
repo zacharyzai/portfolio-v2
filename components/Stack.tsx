@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { FadeIn } from "@/components/ui/fade-in";
 import { ToolDock, ToolDockTile, type ToolDockItem } from "@/components/ui/techstack";
 
 /** A brand logo from svgl.app rendered on a dock tile. */
@@ -54,18 +53,10 @@ const frameworks: ToolDockItem[] = [
 ];
 
 export default function Stack() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
   return (
     <section id="stack" className="py-28 bg-paper">
       <div className="max-w-4xl mx-auto px-6">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+        <FadeIn>
           <p className="font-mono text-xs tracking-widest uppercase text-cobalt mb-3">
             02 — STACK
           </p>
@@ -90,7 +81,7 @@ export default function Stack() {
               <ToolDock items={frameworks} label="Frameworks and tools" className="justify-start" />
             </div>
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

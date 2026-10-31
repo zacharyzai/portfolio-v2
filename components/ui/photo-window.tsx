@@ -19,9 +19,9 @@ export function PhotoWindow() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, rotate: -2 }}
-      animate={{ opacity: 1, y: 0, rotate: -1.5 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 24, rotate: 4, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, rotate: -1.5, scale: 1 }}
+      transition={{ type: "spring", duration: 0.8, bounce: 0.2, delay: 0.4 }}
       className="w-full max-w-md rounded-xl border-2 border-ink bg-invert shadow-[8px_8px_0_0_#17181C] overflow-hidden"
     >
       <div className="flex items-center gap-1.5 border-b-2 border-ink/60 px-4 py-3">

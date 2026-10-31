@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { FadeIn } from "@/components/ui/fade-in";
 
 type Project = {
   title: string;
@@ -36,30 +35,20 @@ const projects: Project[] = [
     tags: ["React", "TypeScript", "Fastify", "Node.js"],
     links: [{ label: "github ↗", href: "https://github.com/zacharyzai/Tiktok-Hackathon-Jam" }],
   },
+  {
+    title: "Ah Ma Ah Gong Can",
+    meta: "IS216 WAD2 · G7 T8 · work in progress",
+    description:
+      "Snap a medicine label or medical bill and get a plain-language explanation in English, 中文, Bahasa Melayu or தமிழ், read aloud. Built for elderly Singaporeans and their caregivers, with subsidy estimates (Pioneer, Merdeka, CHAS) and on-device redaction of personal details.",
+    tags: ["Vue 3", "Express", "MongoDB", "Gemini"],
+    links: [
+      { label: "github ↗", href: "https://github.com/zacharyzai/wad2-proj" },
+      { label: "live ↗", href: "https://ahma-ahgong-can.vercel.app" },
+    ],
+  },
 ];
 
-const placeholderCount = 2;
-
-function FadeIn({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: "easeOut" }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const placeholderCount = 1;
 
 export default function Projects() {
   return (
@@ -76,8 +65,8 @@ export default function Projects() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((p, i) => (
-            <FadeIn key={p.title} delay={i * 0.08}>
-              <div className="h-full rounded-2xl border-2 border-invert-border bg-invert-card p-6 hover:border-cobalt transition-colors">
+            <FadeIn key={p.title} delay={Math.min(i, 3) * 0.05}>
+              <div className="h-full rounded-2xl border-2 border-invert-border bg-invert-card p-6 transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-cobalt [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1">
                 <h3 className="font-heading text-xl text-paper">{p.title}</h3>
                 <p className="font-mono text-[11px] text-cobalt mt-1 mb-4">{p.meta}</p>
                 <p className="text-sm text-paper/70 leading-relaxed mb-5">
@@ -111,7 +100,7 @@ export default function Projects() {
           ))}
 
           {Array.from({ length: placeholderCount }).map((_, i) => (
-            <FadeIn key={`placeholder-${i}`} delay={(projects.length + i) * 0.08}>
+            <FadeIn key={`placeholder-${i}`} delay={Math.min(projects.length + i, 3) * 0.05}>
               <div className="h-full flex items-center justify-center rounded-2xl border-2 border-dashed border-invert-border p-6 text-center min-h-[220px]">
                 <p className="font-mono text-xs text-paper/40">
                   next project incoming ⌄

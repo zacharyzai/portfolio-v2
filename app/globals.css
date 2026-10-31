@@ -35,3 +35,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #2f5fff;
 }
+
+.press {
+  transition-property: transform, background-color, border-color, color;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.press:active {
+  transform: scale(0.97);
+}
