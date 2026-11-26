@@ -46,6 +46,14 @@ const projects: Project[] = [
       { label: "live ↗", href: "https://ahma-ahgong-can.vercel.app" },
     ],
   },
+  {
+    title: "GradeZZY",
+    meta: "CS102 · co-builder, 6-person team",
+    description:
+      "Desktop app that auto-marks Java lab tests: unpacks student zips, fixes common submission mistakes, compiles and runs testers with time limits, then fills the eLearn score sheet. Built the execution layer — tester install, compile, tester runs with timeouts, and score parsing.",
+    tags: ["Java 25", "JavaFX", "SQLite"],
+    links: [{ label: "github ↗", href: "https://github.com/damienlaww/GradeZZY" }],
+  },
 ];
 
 const placeholderCount = 1;
