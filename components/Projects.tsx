@@ -37,7 +37,7 @@ const projects: Project[] = [
   },
   {
     title: "Ah Ma Ah Gong Can",
-    meta: "IS216 WAD2 · G7 T8 · work in progress",
+    meta: "IS216 Web App Development 2 · completed",
     description:
       "Snap a medicine label or medical bill and get a plain-language explanation in English, 中文, Bahasa Melayu or தமிழ், read aloud. Built for elderly Singaporeans and their caregivers, with subsidy estimates (Pioneer, Merdeka, CHAS) and on-device redaction of personal details.",
     tags: ["Vue 3", "Express", "MongoDB", "Gemini"],
